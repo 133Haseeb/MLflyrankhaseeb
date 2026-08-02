@@ -54,6 +54,9 @@ header h2{
 /* ===========================
    Navigation
 =========================== */
+/* ===========================
+   Navigation
+=========================== */
 
 nav{
     background:#163172;
@@ -61,6 +64,7 @@ nav{
     top:0;
     z-index:1000;
     box-shadow:0 2px 8px rgba(0,0,0,.2);
+    padding:0;
 }
 
 .navbar{
@@ -68,41 +72,48 @@ nav{
     display:flex;
     justify-content:center;
     align-items:center;
-    flex-wrap:nowrap;
-    overflow-x:auto;
-    gap:22px;
-    padding:15px 20px;
+    flex-wrap:wrap;
+    gap:10px;
     margin:0;
-    white-space:nowrap;
-}
-
-.navbar::-webkit-scrollbar{
-    height:6px;
-}
-
-.navbar::-webkit-scrollbar-thumb{
-    background:#888;
-    border-radius:20px;
+    padding:12px 15px;
 }
 
 .navbar li{
     list-style:none;
-    flex-shrink:0;
 }
 
 .navbar a{
     text-decoration:none;
     color:white;
-    font-size:16px;
+    font-size:14px;
     font-weight:bold;
-    padding:8px 12px;
+    padding:8px 10px;
     border-radius:5px;
-    transition:.3s;
+    transition:0.3s;
 }
 
 .navbar a:hover{
     background:white;
     color:#163172;
+}
+
+/* Mobile */
+
+@media(max-width:900px){
+
+    .navbar{
+        flex-direction:column;
+        gap:8px;
+        padding:12px;
+    }
+
+    .navbar a{
+        display:block;
+        width:100%;
+        text-align:center;
+        font-size:15px;
+    }
+
 }
 
 /* ===========================
