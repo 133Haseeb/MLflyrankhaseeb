@@ -73,7 +73,7 @@ nav{
     justify-content:center;
     align-items:center;
     flex-wrap:wrap;
-    gap:10px;
+    gap:8px;
     margin:0;
     padding:12px 15px;
 }
@@ -85,7 +85,7 @@ nav{
 .navbar a{
     text-decoration:none;
     color:white;
-    font-size:14px;
+    font-size:13px;
     font-weight:bold;
     padding:8px 10px;
     border-radius:5px;
@@ -103,15 +103,15 @@ nav{
 
     .navbar{
         flex-direction:column;
-        gap:8px;
-        padding:12px;
+        gap:6px;
+        padding:10px;
     }
 
     .navbar a{
         display:block;
         width:100%;
         text-align:center;
-        font-size:15px;
+        font-size:13px;
     }
 
 }
