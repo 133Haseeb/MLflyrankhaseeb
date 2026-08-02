@@ -1,1 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicting Content Refresh Opportunities Using Search Intelligence Warehouse Data</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+
+    <h1>Predicting Content Refresh Opportunities Using Search Intelligence Warehouse Data</h1>
+
+    <h2>A Machine Learning Approach for Ranking Webpages that Require Content Refresh</h2>
+
+    <div class="author-box">
+
+        <p><strong>Author:</strong> Muhammad Haseeb Raza</p>
+
+        <p><strong>Lane:</strong> Refresh / Content Opportunity Scoring</p>
+
+        <p><strong>Dataset:</strong> FlyRank Search Intelligence Warehouse</p>
+
+        <p><strong>Model:</strong> Random Forest Classifier</p>
+
+    </div>
+
+</header>
+
+
+<nav>
+
+    <ul>
+
+        <li><a href="#abstract">Abstract</a></li>
+
+        <li><a href="#question">Question</a></li>
+
+        <li><a href="#data">Data</a></li>
+
+        <li><a href="#methodology">Methodology</a></li>
+
+        <li><a href="#results">Results</a></li>
+
+        <li><a href="#limitations">Limitations</a></li>
+
+        <li><a href="#recommendations">Recommendations</a></li>
+
+        <li><a href="#artifacts">Artifacts</a></li>
+
+        <li><a href="#acknowledgments">Acknowledgments</a></li>
+
+    </ul>
+
+</nav>
+
+
+
+<main>
+
+
+
+<section id="abstract">
+
+<h2>Abstract</h2>
+
+<p>
+
+This project aims to identify webpages that may require a content refresh by using Search Intelligence data from the FlyRank warehouse. Daily search performance data was aggregated into 30-day windows, and features such as impressions, clicks, average position, CTR, content age, and days since the last update were created.
+
+</p>
+
+<p>
+
+A Random Forest Classifier was trained to predict whether a webpage is likely to experience a significant decline in impressions. The model achieved about 80% accuracy on both the random train-test split and the grouped-by-client validation.
+
+</p>
+
+<p>
+
+The results are intended to help SEO teams prioritize webpages for review and should be used as decision support rather than automatic decisions.
+
+</p>
+
+</section>
+
+
+
+<section id="question">
+
+<h2>1. Research Question</h2>
+
+<p>
+
+Can machine learning identify webpages that are likely to require a content refresh by using historical Search Intelligence data from the FlyRank warehouse?
+
+</p>
+
+<p>
+
+This project supports the decision of helping SEO teams decide which webpages should be reviewed first. Instead of manually checking thousands of webpages, the model ranks pages based on their likelihood of needing a content refresh.
+
+</p>
+
+<p>
+
+The project uses the FlyRank Search Intelligence warehouse dataset. Daily search performance data was aggregated into 30-day windows, and features such as impressions, clicks, average position, CTR, content age, and days since the last update were created.
+
+</p>
+
+<p>
+
+A Random Forest Classifier was trained to predict whether a webpage is likely to experience a significant decline in impressions.
+
+</p>
+
+<p>
+
+The results are intended to support SEO decisions and should be used as decision support rather than automatic decisions.
+
+</p>
+
+</section>
+
+
+
+<section id="data">
+
+<h2>2. Data</h2>
+
+<p>
+
+This project uses the FlyRank ML Internship Warehouse dataset from Hugging Face.
+
+</p>
+
+<p>
+
+The main table used in this project is <strong>fact_content_daily_performance</strong>.
+
+</p>
+
+<p>
+
+The original warehouse contains approximately <strong>79 million daily records.</strong>
+
+</p>
+
+<p>
+
+Instead of training directly on all daily records, DuckDB was used to aggregate the data into 30-day windows.
+
+</p>
+
+<p>
+
+Each row in the final dataset represents one webpage during one 30-day period.
+
+</p>
+
+<h3>Selected Features</h3>
+
+<ul>
+
+<li>Total Impressions</li>
+
+<li>Total Clicks</li>
+
+<li>Average Position</li>
+
+<li>Total Sessions</li>
+
+<li>Total Users</li>
+
+<li>Content Age</li>
+
+<li>Days Since Last Update</li>
+
+<li>Click Through Rate (CTR)</li>
+
+</ul>
+
+<h3>Target Variable</h3>
+
+<p>
+
+The target variable is called <strong>needs_refresh</strong>.
+
+</p>
+
+<p>
+
+The target was created by comparing webpage impressions over two consecutive 30-day periods.
+
+</p>
+
+<p>
+
+If impressions decreased by more than <strong>20%</strong>, the page was labeled as <strong>Needs Refresh (1)</strong>. Otherwise, it was labeled as <strong>No Refresh (0)</strong>.
+
+</p>
+
+<h3>Privacy</h3>
+
+<p>
+
+No client names, URLs, search queries, or other private information were used in this project.
+
+</p>
+
+</section>
+
+
+  <section id="methodology">
+
+<h2>3. Methodology</h2>
+
+<p>
+
+The objective of this project is to identify webpages that may need a content refresh.
+
+</p>
+
+<p>
+
+First, DuckDB was used to read the warehouse data directly from Hugging Face and aggregate daily records into 30-day windows.
+
+</p>
+
+<p>
+
+After creating the aggregated dataset, missing values were handled and the target variable was created using the 20% decline rule.
+
+</p>
+
+<p>
+
+A simple baseline was created using fixed rules based on CTR, impressions, and content age.
+
+</p>
+
+<p>
+
+Then a Random Forest Classifier was trained using the selected features. The model was evaluated using both a random train-test split and a grouped-by-client validation split.
+
+</p>
+
+<p>
+
+The grouped validation was used to reduce data leakage because pages from the same client were kept together during testing.
+
+</p>
+
+</section>
+
+
+
+<section id="results">
+
+<h2>4. Results (vs Baseline)</h2>
+
+<p>
+
+The Random Forest model was compared with a simple rule-based baseline using the same dataset.
+
+</p>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Method</th>
+
+<th>Description</th>
+
+<th>Result</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Baseline</td>
+
+<td>Fixed rules based on impressions, CTR, and content age.</td>
+
+<td>Simple ranking of webpages</td>
+
+</tr>
+
+<tr>
+
+<td>Random Forest Classifier</td>
+
+<td>Machine learning model trained on aggregated Search Intelligence features.</td>
+
+<td>Accuracy = 80.45%</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<p>
+
+The Random Forest model performed better than the baseline because it learned relationships between multiple SEO features instead of relying on fixed rules.
+
+</p>
+
+<p>
+
+A grouped-by-client validation was also performed to evaluate the model on unseen clients. The grouped validation achieved approximately 80% accuracy, showing that the model can generalize reasonably well while providing a more realistic evaluation.
+
+</p>
+
+<p>
+
+The results suggest that the model can help prioritize webpages for review. However, the recommendations should be used as decision support and should always be reviewed by SEO specialists before taking action.
+
+</p>
+
+</section>
+
+
+
+<section id="limitations">
+
+<h2>5. Limitations</h2>
+
+<p>
+
+This project was made with Search Intelligence information from the FlyRank warehouse.
+
+</p>
+
+<p>
+
+The model looks for patterns in the information we have. It does not tell us why the performance of a webpage changes. There are things that can affect this that are not in our information like when Google changes its rules, when things are different at certain times of the year, what competitors are doing, or changes in business priorities.
+
+</p>
+
+<p>
+
+We should use the model to help us make decisions. It shows us which webpages might need some work. An SEO specialist should always make the final decision after reviewing the webpage.
+
+</p>
+
+<p>
+
+The results depend on the selected time period and the available data. The model may perform differently when new data becomes available, so it should be monitored and updated regularly.
+
+</p>
+
+</section>
+
+
+  <section id="recommendations">
+
+<h2>6. Ranked Recommendations</h2>
+
+<p>
+
+The trained Random Forest model predicts whether a webpage is likely to require a content refresh. Pages predicted as high risk should be reviewed first.
+
+</p>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Priority</th>
+
+<th>Recommended Action</th>
+
+<th>Reason Code</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>High</td>
+
+<td>Refresh Immediately</td>
+
+<td>HIGH_REFRESH_SCORE</td>
+
+</tr>
+
+<tr>
+
+<td>Medium</td>
+
+<td>Review Content</td>
+
+<td>POSSIBLE_DECLINE</td>
+
+</tr>
+
+<tr>
+
+<td>Medium</td>
+
+<td>Monitor Closely</td>
+
+<td>MODERATE_RISK</td>
+
+</tr>
+
+<tr>
+
+<td>Low</td>
+
+<td>Monitor</td>
+
+<td>LOW_RISK</td>
+
+</tr>
+
+<tr>
+
+<td>Lowest</td>
+
+<td>No Action</td>
+
+<td>STABLE_PAGE</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<p>
+
+These recommendations help SEO teams focus on the most important webpages instead of manually checking thousands of pages. The recommendations should be used as guidance and not as automatic decisions.
+
+</p>
+
+</section>
+
+
+
+<section id="artifacts">
+
+<h2>7. Artifacts Used in this Research</h2>
+
+<p>
+
+The following outputs were generated during this project and are included as evidence of the complete machine learning workflow.
+
+</p>
+
+<ul>
+
+<li>Model vs Baseline comparison table.</li>
+
+<li>Classification Report of the Random Forest model.</li>
+
+<li>Confusion Matrix showing prediction performance.</li>
+
+<li>Ranked Action Playbook containing webpages, recommended actions, and reason codes.</li>
+
+<li>Sample of the final ranked recommendation table exported for SEO review.</li>
+
+</ul>
+
+<p>
+
+These artifacts summarize the complete workflow from data preparation to prediction and help explain how the recommendations were generated. They also improve the reproducibility of the project by showing the outputs produced by the final model.
+
+</p>
+
+</section>
+
+
+
+<section id="acknowledgments">
+
+<h2>Acknowledgments</h2>
+
+<p>
+
+This project was completed as part of the FlyRank Machine Learning Internship.
+
+</p>
+
+<p>
+
+The analysis and machine learning model were built using the FlyRank Search Intelligence Warehouse dataset provided through the internship.
+
+</p>
+
+<p>
+
+I would like to thank the FlyRank team for providing the dataset, learning materials, and practical assignments that made this project possible.
+
+</p>
+
+<p>
+
+<strong>Data Credit:</strong> Built on the FlyRank ML Internship dataset provided by FlyRank.
+
+</p>
+
+</section>
+
+</main>
+
+
+
+<footer>
+
+<p>
+
+© 2026 Muhammad Haseeb Raza | Machine Learning Capstone Project | FlyRank ML Internship
+
+</p>
+
+</footer>
+
+</body>
+
+</html>
