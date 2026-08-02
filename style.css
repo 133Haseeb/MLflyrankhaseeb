@@ -1,16 +1,21 @@
 /* ===========================
-   General
+   Reset
 =========================== */
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
+    scroll-behavior:smooth;
 }
 
+/* ===========================
+   Body
+=========================== */
+
 body{
-    font-family: Arial, Helvetica, sans-serif;
-    background:#f5f7fa;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f4f6f9;
     color:#333;
     line-height:1.8;
 }
@@ -22,34 +27,40 @@ body{
 header{
     background:#1f3c88;
     color:white;
-    padding:40px 20px;
     text-align:center;
+    padding:50px 20px;
 }
 
 header h1{
     font-size:38px;
-    margin-bottom:10px;
+    margin-bottom:15px;
 }
 
 header h2{
     font-size:22px;
     font-weight:normal;
-    margin-bottom:15px;
+    margin-bottom:25px;
 }
 
-header p{
+.author-box{
+    margin-top:20px;
+}
+
+.author-box p{
+    margin:6px 0;
     font-size:17px;
 }
 
 /* ===========================
    Navigation
 =========================== */
+
 nav{
-    background:#1f3c88;
-    padding:18px 0;
+    background:#163172;
     position:sticky;
     top:0;
     z-index:1000;
+    box-shadow:0 2px 8px rgba(0,0,0,.2);
 }
 
 .navbar{
@@ -57,39 +68,54 @@ nav{
     display:flex;
     justify-content:center;
     align-items:center;
-    flex-wrap:wrap;
-    gap:20px;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    gap:22px;
+    padding:15px 20px;
     margin:0;
-    padding:0;
+    white-space:nowrap;
+}
+
+.navbar::-webkit-scrollbar{
+    height:6px;
+}
+
+.navbar::-webkit-scrollbar-thumb{
+    background:#888;
+    border-radius:20px;
 }
 
 .navbar li{
-    margin:0;
+    list-style:none;
+    flex-shrink:0;
 }
 
 .navbar a{
-    color:white;
     text-decoration:none;
-    font-size:18px;
+    color:white;
+    font-size:16px;
     font-weight:bold;
-    transition:0.3s;
+    padding:8px 12px;
+    border-radius:5px;
+    transition:.3s;
 }
 
 .navbar a:hover{
-    color:#ffd54f;
+    background:white;
+    color:#163172;
 }
 
 /* ===========================
-   Main Paper
+   Main
 =========================== */
 
 main{
     max-width:1100px;
     margin:40px auto;
     background:white;
-    padding:40px;
+    padding:45px;
     border-radius:10px;
-    box-shadow:0 0 15px rgba(0,0,0,.15);
+    box-shadow:0 0 15px rgba(0,0,0,.12);
 }
 
 /* ===========================
@@ -103,32 +129,32 @@ section{
 section h2{
     color:#1f3c88;
     border-bottom:3px solid #1f3c88;
-    padding-bottom:8px;
+    padding-bottom:10px;
     margin-bottom:25px;
 }
 
 section h3{
-    margin-top:25px;
-    margin-bottom:10px;
     color:#163172;
+    margin-top:25px;
+    margin-bottom:12px;
 }
 
 section p{
-    margin-bottom:18px;
     text-align:justify;
+    margin-bottom:18px;
 }
 
 /* ===========================
    Lists
 =========================== */
 
-ul{
+section ul{
     margin-left:30px;
     margin-top:15px;
     margin-bottom:20px;
 }
 
-li{
+section li{
     margin-bottom:10px;
 }
 
@@ -146,19 +172,32 @@ table th{
     background:#1f3c88;
     color:white;
     padding:14px;
+    border:1px solid #ddd;
 }
 
 table td{
-    border:1px solid #cccccc;
     padding:14px;
+    border:1px solid #ddd;
 }
 
 table tr:nth-child(even){
-    background:#f2f2f2;
+    background:#f4f4f4;
 }
 
 table tr:hover{
-    background:#e8f0fe;
+    background:#eef4ff;
+}
+
+/* ===========================
+   Links
+=========================== */
+
+a{
+    color:#1f3c88;
+}
+
+a:hover{
+    color:#ff9800;
 }
 
 /* ===========================
@@ -174,49 +213,40 @@ footer{
 }
 
 /* ===========================
-   Links
-=========================== */
-
-a{
-    color:#1f3c88;
-}
-
-a:hover{
-    color:#e67e22;
-}
-
-/* ===========================
-   Responsive Design
+   Responsive
 =========================== */
 
 @media(max-width:900px){
 
-    header h1{
-        font-size:28px;
-    }
+header h1{
+    font-size:28px;
+}
 
-    header h2{
-        font-size:18px;
-    }
+header h2{
+    font-size:18px;
+}
 
-    main{
-        margin:20px;
-        padding:25px;
-    }
+.author-box p{
+    font-size:15px;
+}
 
-    nav{
-        padding:10px;
-    }
+main{
+    margin:20px;
+    padding:25px;
+}
 
-    nav a{
-        display:inline-block;
-        margin:8px;
-        font-size:14px;
-    }
+.navbar{
+    justify-content:flex-start;
+    gap:15px;
+}
 
-    table{
-        display:block;
-        overflow-x:auto;
-    }
+.navbar a{
+    font-size:14px;
+}
+
+table{
+    display:block;
+    overflow-x:auto;
+}
 
 }
